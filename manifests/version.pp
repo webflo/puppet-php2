@@ -3,7 +3,10 @@ define php2::version(
   $env     = {},
   $version = $name,
 ) {
-  require php2
+  require ::boxen::config
+  require ::php2
+  require ::php2::config
+
   $package = regsubst($name, '\.', '')
 
   package { "homebrew/php/php${package}":
@@ -19,4 +22,10 @@ define php2::version(
   exec { "Unlink php${package}":
     command     => "brew unlink php${package}",
   }
+
+  file { "${php2::config::root}/versions/${name}":
+   ensure => 'link',
+   target => "/opt/boxen/homebrew/opt/php${package}",
+  }
+
 }

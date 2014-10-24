@@ -29,12 +29,17 @@ define php2::fpm (
     notify  => ::php2::fpm::service[$version],
   }
 
+  file { $version_config_root:
+    ensure  => directory,
+    force   => true,
+  }
+
   # Set up FPM Pool config directory
   file { $fpm_pool_config_dir:
     ensure  => directory,
     recurse => true,
     force   => true,
-    source  => 'puppet:///modules/php/empty-conf-dir',
+    source  => 'puppet:///modules/php2/empty-conf-dir',
     require => File[$version_config_root],
   }
 
@@ -60,5 +65,9 @@ define php2::fpm (
   php2::fpm::service { $version:
     ensure    => running,
     subscribe => File["${fpm_pool_config_dir}/${version}.conf"],
+  }
+
+  php2::fpm::apache { $version:
+    version => $version
   }
 }
