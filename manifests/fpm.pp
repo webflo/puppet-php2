@@ -29,11 +29,6 @@ define php2::fpm (
     notify  => ::php2::fpm::service[$version],
   }
 
-  file { $version_config_root:
-    ensure  => directory,
-    force   => true,
-  }
-
   # Set up FPM Pool config directory
   file { $fpm_pool_config_dir:
     ensure  => directory,
