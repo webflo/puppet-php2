@@ -1,7 +1,8 @@
-define php2::version(
+define php2::version (
   $ensure  = 'installed',
   $env     = {},
   $version = $name,
+  $install_options = {}
 ) {
   require ::boxen::config
   require ::php2
@@ -9,25 +10,23 @@ define php2::version(
 
   $package = regsubst($name, '\.', '')
 
-  package { "homebrew/php/php${package}":
-    ensure => 'latest',
-    install_options => [
+  php_version { $package:
+    provider          => "php_homebrew",
+    user              => $::boxen_user,
+    user_home         => "/Users/${::boxen_user}",
+    phpenv_root       => $php::config::root,
+    version           => $package,
+    homebrew_path     => $boxen::config::homebrewdir,
+    install_options   => [
       '--with-fpm',
       '--without-apache'
-    ],
-    before => exec["Unlink php${package}"],
-    notify => exec["Unlink php${package}"]
-  }
-
-  exec { "Unlink php${package}":
-    command     => "brew unlink php${package}",
+    ]
   }
 
   file { "${php2::config::root}/versions/${name}":
    ensure => 'link',
    target => "/opt/boxen/homebrew/opt/php${package}",
   }
-
 
   # Install location
   $dest = "${php2::config::root}/versions/${version}"
@@ -57,8 +56,15 @@ define php2::version(
   }
 
   file { $conf_d:
-    ensure  => directory,
-    purge   => true,
+    ensure => 'link',
+    target => "${boxen::config::homebrewdir}/etc/php/${version}/conf.d",
+    force   => true,
+    require => File[$version_config_root],
+  }
+
+  file { $php_ini:
+    ensure => 'link',
+    target => "${boxen::config::homebrewdir}/etc/php/${version}/php.ini",
     force   => true,
     require => File[$version_config_root],
   }
