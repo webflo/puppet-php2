@@ -15,4 +15,5 @@ class php2::config {
   $cachedir          = "${php2::config::datadir}/cache"
   $extensioncachedir = "${php2::config::datadir}/cache/extensions"
   $configprefix      = "10-"
+  $userconfigdir     = hiera('php2::config::config_path', "/Users/${::boxen_user}/.boxen/config/php")
 }
