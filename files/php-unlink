@@ -3,3 +3,4 @@
 system("brew unlink php54")
 system("brew unlink php55")
 system("brew unlink php56")
+system("brew unlink php70")

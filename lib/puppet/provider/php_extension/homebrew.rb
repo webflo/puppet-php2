@@ -27,6 +27,7 @@ Puppet::Type.type(:php_extension).provide(:homebrew) do
     execute [ "brew", "unlink", "php54" ], command_opts
     execute [ "brew", "unlink", "php55" ], command_opts
     execute [ "brew", "unlink", "php56" ], command_opts
+    execute [ "brew", "unlink", "php70" ], command_opts
   end
 
   def link
