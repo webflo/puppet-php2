@@ -18,12 +18,4 @@ define php2::extension (
     php_version    => $php,
     cache_dir      => $php2::config::extensioncachedir,
   }
-
-  # exec { "Link php${php_version} for ${name}":
-  #   command => "/opt/boxen/repo/shared/php2/files/php-link php${php_version}",
-  #   require => Php2::Fpm["${php}"]
-  # } ->
-  # package { "homebrew/php/${name}":
-  #   ensure => 'latest'
-  # }
 }
