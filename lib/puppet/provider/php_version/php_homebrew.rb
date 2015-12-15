@@ -36,6 +36,7 @@ Puppet::Type.type(:php_version).provide :php_homebrew do
     options = command_opts.clone
     options[:failonfail] = false
 
+    execute [ "brew", "unlink", "php53" ], options
     execute [ "brew", "unlink", "php54" ], options
     execute [ "brew", "unlink", "php55" ], options
     execute [ "brew", "unlink", "php56" ], options
