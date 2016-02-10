@@ -14,7 +14,7 @@ define php2::version (
     provider          => "php_homebrew",
     user              => $::boxen_user,
     user_home         => "/Users/${::boxen_user}",
-    phpenv_root       => $php::config::root,
+    phpenv_root       => $php2::config::root,
     version           => $package,
     homebrew_path     => $boxen::config::homebrewdir,
     install_options   => [
