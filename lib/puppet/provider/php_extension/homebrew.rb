@@ -41,7 +41,26 @@ Puppet::Type.type(:php_extension).provide(:homebrew) do
 
   def install
     package = @resource[:name]
-    execute [ "brew", "boxen-install", package ], command_opts
+    do_install = true
+
+    begin
+      execute [ "brew", "outdated", package], options
+    rescue
+      # Exit code 1, run upgade the package
+
+      begin
+        execute [ "brew", "upgrade", package ], command_opts
+        do_install = false
+      rescue
+        # Update failed, trigger reinstall
+        execute [ "brew", "remove", package ], command_opts
+        do_install = true
+      end
+    end
+
+    if do_install
+      execute [ "brew", "install", package ], command_opts
+    end
   end
 
   def destroy
