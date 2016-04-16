@@ -44,7 +44,7 @@ Puppet::Type.type(:php_extension).provide(:homebrew) do
     do_install = true
 
     begin
-      execute [ "brew", "outdated", package], options
+      execute [ "brew", "outdated", package], command_opts
     rescue
       # Exit code 1, run upgade the package
 
