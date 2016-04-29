@@ -55,6 +55,11 @@ define php2::version (
     ensure => directory,
   }
 
+  file { ["${boxen::config::homebrewdir}/etc/php/${version}", "${boxen::config::homebrewdir}/etc/php/${version}/conf.d"]:
+    ensure => directory,
+    recurse => true
+  }
+
   file { $conf_d:
     ensure => 'link',
     target => "${boxen::config::homebrewdir}/etc/php/${version}/conf.d",
