@@ -3,11 +3,11 @@ Puppet::Type.newtype(:php_extension) do
 
   ensurable do
     newvalue :present do
-      provider.create
+      provider.install
     end
 
     newvalue :absent do
-      provider.destroy
+      provider.uninstall
     end
 
     defaultto :present

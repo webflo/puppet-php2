@@ -16,13 +16,6 @@ Puppet::Type.type(:php_extension).provide(:homebrew) do
     end
   end
 
-  # Build and install our PHP extension
-  def create
-    unlink
-    link
-    install
-  end
-
   def unlink
     options = command_opts.clone
     options[:failonfail] = false
@@ -39,7 +32,11 @@ Puppet::Type.type(:php_extension).provide(:homebrew) do
     execute [ "brew", "link", "php#{version}" ], command_opts
   end
 
+  # Build and install our PHP extension
   def install
+    unlink
+    link
+
     package = @resource[:name]
     do_install = true
 
@@ -63,12 +60,14 @@ Puppet::Type.type(:php_extension).provide(:homebrew) do
     end
   end
 
-  def destroy
-    # FileUtils.rm_rf "#{@resource[:phpenv_root]}/versions/#{@resource[:php_version]}/modules/#{@resource[:extension]}.so"
+  def uninstall
+    execute [ "brew", "uninstall", "--force", "#{@resource[:name]}" ], command_opts
+    FileUtils.rm_rf "#{Facter.value(:homebrew_root)}/etc/php/#{@resource[:php_version]}/conf.d/ext-#{@resource[:extension]}.ini"
+    FileUtils.rm_rf "#{Facter.value(:homebrew_root)}/etc/php/#{@resource[:php_version]}/conf.d/ext-#{@resource[:extension]}.ini.disabled"
   end
 
   def exists?
-    # File.exists? "#{@resource[:phpenv_root]}/versions/#{@resource[:php_version]}/modules/#{@resource[:extension]}.so"
+    execute [ "brew", "list", "--versions", "#{@resource[:name]}" ], command_opts
   end
 
 protected

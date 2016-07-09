@@ -1,5 +1,5 @@
 define php2::extension (
-  $ensure  = 'installed',
+  $ensure  = 'present',
   $extension,
   $php
 ) {
@@ -9,6 +9,7 @@ define php2::extension (
   require php2::fpm::config
 
   php_extension { $name:
+    ensure         => $ensure,
     extension      => $extension,
     version        => $version,
     package_name   => $package_name,
