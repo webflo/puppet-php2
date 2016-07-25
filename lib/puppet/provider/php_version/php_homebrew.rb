@@ -29,7 +29,7 @@ Puppet::Type.type(:php_version).provide :php_homebrew do
     php_version = Gem::Version.new(version)
     package = "php#{php_version.segments[0]}#{php_version.segments[1]}"
 
-    execute [ "brew", "boxen-install", package ], command_opts
+    execute [ "brew", "boxen-install", package, "--without-apache" ], command_opts
   end
 
   def unlink
