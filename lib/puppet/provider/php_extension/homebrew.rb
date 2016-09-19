@@ -70,6 +70,7 @@ Puppet::Type.type(:php_extension).provide :homebrew, :parent => Puppet::Provider
     execute [ "brew", "unlink", "php55" ], options
     execute [ "brew", "unlink", "php56" ], options
     execute [ "brew", "unlink", "php70" ], options
+    execute [ "brew", "unlink", "php71" ], options
   end
 
   def link_php
