@@ -16,9 +16,12 @@ class php2::phpenv {
     ]:
       ensure  => directory,
       require => Exec['phpenv-setup-root-repo'];
+  }
 
-    "${boxen::config::envdir}/phpenv.sh":
-      source => 'puppet:///modules/php2/phpenv.sh' ;
+  boxen::env_script {
+    'phpenv':
+      source => 'puppet:///modules/php2/phpenv.sh',
+      priority => 'higher';
   }
 
   # Set up phpenv
