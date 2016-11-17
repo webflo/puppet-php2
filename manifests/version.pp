@@ -7,6 +7,7 @@ define php2::version (
   require ::boxen::config
   require ::php2
   require ::php2::config
+  require ::php2::setup
 
   $package = regsubst($name, '\.', '')
 
