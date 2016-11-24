@@ -6,6 +6,7 @@ class php2::setup {
     [
       $php2::config::root,
       $php2::config::logdir,
+      $php2::config::configdir,
       $php2::config::datadir,
       $php2::config::pluginsdir,
       $php2::config::cachedir,
