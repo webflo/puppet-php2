@@ -1,0 +1,7 @@
+[Date]
+date.timezone= "Europe/Berlin"
+
+; MySQL Socket
+mysql.default_socket = <%= scope.lookupvar('::mysql::socket') %>
+mysqli.default_socket = <%= scope.lookupvar('::mysql::socket') %>
+pdo_mysql.default_socket = <%= scope.lookupvar('::mysql::socket') %>

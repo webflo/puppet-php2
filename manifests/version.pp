@@ -75,4 +75,8 @@ define php2::version (
     require => File[$version_config_root],
   }
 
+  file { "${boxen::config::homebrewdir}/etc/php/${version}/conf.d/z-00-boxen.ini":
+    content => template("php2/php-boxen.ini.erb"),
+  }
+
 }
