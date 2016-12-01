@@ -25,8 +25,8 @@ define php2::version (
   }
 
   file { "${php2::config::root}/versions/${name}":
-   ensure => 'link',
-   target => "/opt/boxen/homebrew/opt/php${package}",
+    ensure => 'link',
+    target => "/opt/boxen/homebrew/opt/php${package}",
   }
 
   # Install location
@@ -77,7 +77,7 @@ define php2::version (
 
   file { "${boxen::config::homebrewdir}/etc/php/${version}/conf.d/z-00-boxen.ini":
     content => template("php2/php-boxen.ini.erb"),
-    require => File["${boxen::config::homebrewdir}/etc/php/${version}/conf.d"]
+    require => File["${boxen::config::homebrewdir}/etc/php/${version}/conf.d"],
   }
 
 }

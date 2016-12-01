@@ -26,7 +26,7 @@ define php2::fpm (
   # Set up FPM config
   file { $fpm_config:
     content => template('php2/php-fpm.conf.erb'),
-    notify  => Php2::fpm::service[$version],
+    notify  => ::Php2::Fpm::Service[$version],
   }
 
   # Set up FPM Pool config directory
