@@ -8,7 +8,7 @@ class php2::composer {
 
   exec { 'download-php-composer':
     command => "curl -sS -o ${composer_path} ${composer_url}",
-    unless  => "[ -f ${composer_path} ] && [ \"`shasum -a 265 -q ${composer_path}`\" = \"${composer_checksum}\" ]",
+    unless  => "[ -f ${composer_path} ] && [ \"`shasum -a 384 -q ${composer_path}`\" = \"${composer_checksum}\" ]",
     cwd     => $php2::config::root,
     require => Exec['phpenv-setup-root-repo']
   } ->
