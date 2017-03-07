@@ -19,8 +19,7 @@ define php2::version (
     version           => $package,
     homebrew_path     => $boxen::config::homebrewdir,
     install_options   => [
-      '--with-fpm',
-      '--without-apache'
+      '--with-fpm'
     ]
   }
 
