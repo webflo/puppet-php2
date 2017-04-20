@@ -8,7 +8,7 @@ class php2::xdebug {
 
   boxen::env_script {
     "xdebug":
-      source => "puppet:///modules/php2/composer.sh",
+      source => "puppet:///modules/php2/xdebug.sh",
       priority => "lower"
   }
 }
