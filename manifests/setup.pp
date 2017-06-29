@@ -1,6 +1,7 @@
 class php2::setup {
   include boxen::config
   include mysql::config
+  include apache::config
 
   file {
     [
@@ -11,7 +12,9 @@ class php2::setup {
       $php2::config::pluginsdir,
       $php2::config::cachedir,
       $php2::config::extensioncachedir,
+      "${apache::config::configdir}/php"
     ]:
     ensure => directory
   }
+
 }

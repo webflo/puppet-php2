@@ -1,6 +1,6 @@
 define php2::fpm::apache($version) {
-  ::apache_php::handler { "${name}":
-    php_version => $version,
-    idle_timeout => 3600,
+  file { "${::apache::config::configdir}/php/${version}.conf":
+    ensure  => $ensure,
+    content => template('php2/vhost_include.conf.erb'),
   }
 }

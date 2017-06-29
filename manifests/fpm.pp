@@ -41,7 +41,7 @@ define php2::fpm (
   # Create a default pool, as FPM won't start without one
   # Listen on a fake socket for now
   $pool_name    = $version
-  $socket_path  = "${boxen::config::socketdir}/${version}"
+  $socket_path  = "${boxen::config::socketdir}/php-${version}"
   $pm           = $php2::fpm::config::pm
   $max_children = $php2::fpm::config::pm_max_children
   $request_terminate_timeout = $php2::fpm::config::request_terminate_timeout
@@ -65,4 +65,5 @@ define php2::fpm (
   php2::fpm::apache { $version:
     version => $version
   }
+
 }
