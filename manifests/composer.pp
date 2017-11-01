@@ -1,8 +1,11 @@
-class php2::composer {
+class php2::composer (
+  $version, 
+  $checksum,
+) {
   require php2::config
 
-  $composer_version = hiera("php2::composer::version")
-  $composer_checksum = hiera("php2::composer::checksum")
+  $composer_version = $version
+  $composer_checksum = $checksum
   $composer_url = "https://getcomposer.org/download/${composer_version}/composer.phar"
   $composer_path = "${php2::config::root}/bin/composer"
 
