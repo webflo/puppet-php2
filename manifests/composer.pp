@@ -1,17 +1,9 @@
-class php2::composer (
-  $version, 
-  $checksum,
-) {
+class php2::composer() {
   require php2::config
-
-  $composer_version = $version
-  $composer_checksum = $checksum
-  $composer_url = "https://getcomposer.org/download/${composer_version}/composer.phar"
   $composer_path = "${php2::config::root}/bin/composer"
 
   exec { 'download-php-composer':
-    command => "curl -sS -o ${composer_path} ${composer_url}",
-    unless  => "[ -f ${composer_path} ] && [ \"`shasum -a 384 -q ${composer_path}`\" = \"${composer_checksum}\" ]",
+    command => "php /opt/boxen/repo/shared/php2/files/tiny-composer-installer.php ${$composer_path}",
     cwd     => $php2::config::root,
     require => Exec['phpenv-setup-root-repo']
   } ->
