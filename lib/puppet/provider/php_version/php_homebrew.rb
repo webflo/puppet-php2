@@ -42,6 +42,7 @@ Puppet::Type.type(:php_version).provide :php_homebrew do
     execute [ "brew", "unlink", "php56" ], options
     execute [ "brew", "unlink", "php70" ], options
     execute [ "brew", "unlink", "php71" ], options
+    execute [ "brew", "unlink", "php72" ], options
   end
 
   def homedir_prefix
