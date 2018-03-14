@@ -10,6 +10,10 @@ define php2::version (
   require ::php2::setup
 
   $package = regsubst($name, '\.', '')
+  $homebrew_package_name = $name ? {
+    "7.2" => "php",
+    default => "php${$package}",
+  }
 
   php_version { $package:
     provider          => "php_homebrew",
@@ -25,7 +29,7 @@ define php2::version (
 
   file { "${php2::config::root}/versions/${name}":
     ensure => 'link',
-    target => "/opt/boxen/homebrew/opt/php${package}",
+    target => "/opt/boxen/homebrew/opt/${homebrew_package_name}",
   }
 
   # Install location
