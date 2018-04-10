@@ -12,15 +12,15 @@ define php2::version (
   $package = regsubst($name, '\.', '')
   $homebrew_package_name = $name ? {
     "7.2" => "php",
-    default => "php${$package}",
+    default => "php@${version}",
   }
 
-  php_version { $package:
+  php_version { $homebrew_package_name:
     provider          => "php_homebrew",
     user              => $::boxen_user,
     user_home         => "/Users/${::boxen_user}",
     phpenv_root       => $php2::config::root,
-    version           => $package,
+    version           => $name,
     homebrew_path     => $boxen::config::homebrewdir,
     install_options   => [
       '--with-fpm'

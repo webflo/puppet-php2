@@ -18,17 +18,14 @@ Puppet::Type.type(:php_version).provide :php_homebrew do
 
   def create
     unlink
-    install "#{@resource[:version]}"
+    install "#{@resource[:name]}"
   end
 
   def exists?
 
   end
 
-  def install(version)
-    php_version = Gem::Version.new(version)
-    package = "php#{php_version.segments[0]}#{php_version.segments[1]}"
-
+  def install(package)
     execute [ "brew", "boxen-install", package ], command_opts
   end
 
@@ -36,13 +33,11 @@ Puppet::Type.type(:php_version).provide :php_homebrew do
     options = command_opts.clone
     options[:failonfail] = false
 
-    execute [ "brew", "unlink", "php53" ], options
-    execute [ "brew", "unlink", "php54" ], options
-    execute [ "brew", "unlink", "php55" ], options
-    execute [ "brew", "unlink", "php56" ], options
-    execute [ "brew", "unlink", "php70" ], options
-    execute [ "brew", "unlink", "php71" ], options
-    execute [ "brew", "unlink", "php72" ], options
+    execute [ "brew", "unlink", "php@5.6" ], options
+    execute [ "brew", "unlink", "php@7.0" ], options
+    execute [ "brew", "unlink", "php@7.1" ], options
+    execute [ "brew", "unlink", "php@7.2" ], options
+    execute [ "brew", "unlink", "php" ], options
   end
 
   def homedir_prefix

@@ -65,18 +65,16 @@ Puppet::Type.type(:php_extension).provide :homebrew, :parent => Puppet::Provider
     options = command_opts.clone
     options[:failonfail] = false
 
-    execute [ "brew", "unlink", "php53" ], options
-    execute [ "brew", "unlink", "php54" ], options
-    execute [ "brew", "unlink", "php55" ], options
-    execute [ "brew", "unlink", "php56" ], options
-    execute [ "brew", "unlink", "php70" ], options
-    execute [ "brew", "unlink", "php71" ], options
-    execute [ "brew", "unlink", "php72" ], options
+    execute [ "brew", "unlink", "php@5.6" ], options
+    execute [ "brew", "unlink", "php@7.0" ], options
+    execute [ "brew", "unlink", "php@7.1" ], options
+    execute [ "brew", "unlink", "php@7.2" ], options
+    execute [ "brew", "unlink", "php" ], options
   end
 
   def link_php
-    version = @resource[:php_version].gsub '.', ''
-    execute [ "brew", "link", "php#{version}" ], command_opts
+    version = @resource[:php_version]
+    execute [ "brew", "link", "php@#{version}" ], command_opts
   end
 
   def install
