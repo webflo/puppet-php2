@@ -13,8 +13,18 @@ Puppet::Type.type(:package).provide :pear, parent: Puppet::Provider::Package do
 
   def self.pearlist(only = nil)
     channel = nil
+    command_opts = {}
 
-    packages = pear('list', '-a').split("\n").map do |line|
+    if only
+      command_opts = {
+        :custom_environment => {
+          "PHPENV_VERSION" => only[:package_settings]["php"]
+        }
+      }
+    end
+
+    result = execute([command(:pear), 'list', '-a'], command_opts)
+    packages = result.split("\n").map do |line|
       # current channel
       %r{INSTALLED PACKAGES, CHANNEL (.*):}i.match(line) { |m| channel = m[1].downcase }
 
@@ -79,13 +89,18 @@ Puppet::Type.type(:package).provide :pear, parent: Puppet::Provider::Package do
 
     Puppet::Util::Execution.execute(
       [command(:pear)] + command,
-      uid: default_user
+      uid: default_user,
+      custom_environment: {
+        "PHPENV_VERSION" => @resource[:package_settings]["php"]
+      }
     )
+
   end
 
   def latest
     target = @resource[:source] || @resource[:name]
-    pear('remote-info', target).lines.find do |set|
+    result = execute([command(:pear), 'remote-info', target], command_opts)
+    result.lines.find do |set|
       set =~ %r{^Latest}
     end.split[1]
   end
@@ -95,8 +110,8 @@ Puppet::Type.type(:package).provide :pear, parent: Puppet::Provider::Package do
   end
 
   def uninstall
-    output = pear 'uninstall', @resource[:name]
-    raise Puppet::Error, output unless output =~ %r{^uninstall ok}
+    result = execute([command(:pear), 'uninstall', @resource[:name]], command_opts)
+    raise Puppet::Error, result unless result =~ %r{^uninstall ok}
   end
 
   def update
@@ -108,13 +123,10 @@ Puppet::Type.type(:package).provide :pear, parent: Puppet::Provider::Package do
    end
 
   def command_opts
-    @command_opts ||= {
+    {
       :combine            => true,
       :custom_environment => {
-        "HOME"                      => "/#{homedir_prefix}/#{default_user}",
-        "PATH"                      => "#{self.class.home}/bin:/usr/bin:/usr/sbin:/bin:/sbin",
-        "BOXEN_HOMEBREW_BOTTLE_URL" => bottle_url,
-        "HOMEBREW_CACHE"            => self.class.cache,
+        "PHPENV_VERSION" => @resource[:package_settings]["php"]
       },
       :failonfail         => true,
       :uid                => default_user

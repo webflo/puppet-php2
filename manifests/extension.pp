@@ -23,6 +23,10 @@ define php2::extension (
     }
   }
   if ($provider == 'pecl') {
+    exec { "Rehash-${extension}--${php}":
+      command => "/opt/boxen/phpenv/bin/phpenv rehash",
+    }
+    ~>
     package { $name:
       ensure => installed,
       package_settings => {
@@ -31,9 +35,11 @@ define php2::extension (
       },
       provider => 'pecl'
     }
+    ~>
     file { "${boxen::config::homebrewdir}/etc/php/${php}/conf.d/ext-${extension}.ini":
       content => "zend_extension='${extension}.so'"
     }
+    ~>
     file_line { "Remove-${extension}-from-php.ini--${php}":
       ensure => absent,
       path   => "${boxen::config::homebrewdir}/etc/php/${php}/php.ini",
