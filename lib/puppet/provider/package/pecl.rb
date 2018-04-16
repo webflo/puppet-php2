@@ -19,10 +19,10 @@ Puppet::Type.type(:package).provide :pecl, parent: :pear do
   end
 
   def convert_to_pear
-    if @resource[:package_settings]["version"]
-      @resource[:source] = "pecl.php.net/#{@resource[:package_settings]["extension"].to_s}-#{@resource[:package_settings]["version"].to_s}"
-    else
+    if @resource[:package_settings]["version"] == "latest"
       @resource[:source] = "pecl.php.net/#{@resource[:package_settings]["extension"].to_s}"
+    else
+      @resource[:source] = "pecl.php.net/#{@resource[:package_settings]["extension"].to_s}-#{@resource[:package_settings]["version"].to_s}"
     end
   end
 

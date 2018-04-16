@@ -2,7 +2,7 @@ define php2::extension (
   $ensure  = 'present',
   $extension,
   $php,
-  $version = null,
+  $version = 'latest',
   $provider = 'homebrew'
 ) {
   $php_version = regsubst($php, '\.', '')
