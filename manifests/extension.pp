@@ -2,6 +2,7 @@ define php2::extension (
   $ensure  = 'present',
   $extension,
   $php,
+  $version = null,
   $provider = 'homebrew'
 ) {
   $php_version = regsubst($php, '\.', '')
@@ -31,7 +32,8 @@ define php2::extension (
       ensure => installed,
       package_settings => {
         php => $php,
-        extension => $extension
+        extension => $extension,
+        version => $version
       },
       provider => 'pecl'
     }
