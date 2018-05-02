@@ -15,16 +15,8 @@ define php2::version (
     default => "php@${version}",
   }
 
-  php_version { $homebrew_package_name:
-    provider          => "php_homebrew",
-    user              => $::boxen_user,
-    user_home         => "/Users/${::boxen_user}",
-    phpenv_root       => $php2::config::root,
-    version           => $name,
-    homebrew_path     => $boxen::config::homebrewdir,
-    install_options   => [
-      '--with-fpm'
-    ]
+  package { $homebrew_package_name:
+    ensure => 'latest'
   }
 
   file { "${php2::config::root}/versions/${name}":
